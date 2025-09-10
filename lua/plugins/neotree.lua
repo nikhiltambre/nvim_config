@@ -8,7 +8,7 @@ return {
     '3rd/image.nvim', -- Optional image support in preview window: See `# Preview Mode` for more information
     {
       's1n7ax/nvim-window-picker',
-      version = '2.*',
+      version = '.*',
       config = function()
         require('window-picker').setup {
           filter_rules = {
@@ -26,6 +26,7 @@ return {
       end,
     },
   },
+
   config = function()
     require('neo-tree').setup {
       close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab

@@ -2,6 +2,24 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+--Run Current file
+vim.keymap.set('n', '<F5>', function()
+  local file = vim.fn.expand '%'
+  local ext = vim.fn.expand '%:e'
+
+  if ext == 'cpp' then
+    vim.cmd('!g++ ' .. file .. ' -o %:r && ./%:r')
+  elseif ext == 'java' then
+    vim.cmd('!javac ' .. file .. ' && java %:r')
+  elseif ext == 'py' then
+    vim.cmd('!python3 ' .. file)
+  elseif ext == 'c' then
+    vim.cmd('!gcc ' .. file .. ' -o %:r && ./%:r')
+  else
+    print('No run command set for .' .. ext)
+  end
+end, { noremap = true, silent = true })
+
 -- Disable the spacebar key's default behavior in Normal and Visual modes
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
