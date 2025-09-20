@@ -1,26 +1,189 @@
 -- Set leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
---Run Current file
+--
+-- vim.keymap.set('n', '<F5>', function()
+--   local file = vim.fn.expand '%'
+--   local ext = vim.fn.expand '%:e'
+--   local filename = vim.fn.expand '%:t:r'
+--   local filepath = vim.fn.expand '%:p:h'
+--
+--   local input_file = filepath .. '/input.txt'
+--   local output_file = filepath .. '/output.txt'
+--   local has_input = vim.fn.filereadable(input_file) == 1
+--
+--   local cmd = nil
+--   if ext == 'cpp' then
+--     cmd = 'g++ ' .. file .. ' -o ' .. filename .. ' && '
+--     if has_input then
+--       cmd = cmd .. './' .. filename .. ' < input.txt > output.txt'
+--     else
+--       cmd = cmd .. './' .. filename .. ' > output.txt'
+--     end
+--   elseif ext == 'c' then
+--     cmd = 'gcc ' .. file .. ' -o ' .. filename .. ' && '
+--     if has_input then
+--       cmd = cmd .. './' .. filename .. ' < input.txt > output.txt'
+--     else
+--       cmd = cmd .. './' .. filename .. ' > output.txt'
+--     end
+--   elseif ext == 'java' then
+--     cmd = 'javac ' .. file .. ' && java ' .. filename
+--     if has_input then
+--       cmd = cmd .. ' < input.txt > output.txt'
+--     else
+--       cmd = cmd .. ' > output.txt'
+--     end
+--   elseif ext == 'py' then
+--     cmd = 'python3 ' .. file
+--     if has_input then
+--       cmd = cmd .. ' < input.txt > output.txt'
+--     else
+--       cmd = cmd .. ' > output.txt'
+--     end
+--   elseif ext == 'js' then
+--     cmd = 'node ' .. file
+--     if has_input then
+--       cmd = cmd .. ' < input.txt > output.txt'
+--     else
+--       cmd = cmd .. ' > output.txt'
+--     end
+--   elseif ext == 'go' then
+--     cmd = 'go run ' .. file
+--     if has_input then
+--       cmd = cmd .. ' < input.txt > output.txt'
+--     else
+--       cmd = cmd .. ' > output.txt'
+--     end
+--   else
+--     vim.notify('No run command for .' .. ext .. ' files', vim.log.levels.WARN)
+--     return
+--   end
+--
+--   -- Run command directly (no terminal)
+--   vim.cmd('!' .. cmd)
+--
+--   -- Open or refresh output.txt in a split
+--   vim.cmd('botright split ' .. output_file)
+--   vim.cmd('e ' .. output_file) -- reload contents
+-- end, { desc = 'Run file with input/output (no terminal)', noremap = true, silent = true })
+--
+-- -- F6 for compilation only (unchanged)
+-- vim.keymap.set('n', '<F6>', function()
+--   local file = vim.fn.expand '%'
+--   local ext = vim.fn.expand '%:e'
+--   local filename = vim.fn.expand '%:t:r'
+--   local filepath = vim.fn.expand '%:p:h'
+--
+--   local original_dir = vim.fn.getcwd()
+--   vim.cmd('cd ' .. filepath)
+--
+--   if ext == 'cpp' then
+--     vim.cmd('!g++ ' .. file .. ' -o ' .. filename)
+--   elseif ext == 'c' then
+--     vim.cmd('!gcc ' .. file .. ' -o ' .. filename)
+--   elseif ext == 'java' then
+--     vim.cmd('!javac ' .. file)
+--   else
+--     vim.notify('No compile command configured for .' .. ext .. ' files', vim.log.levels.WARN)
+--   end
+--
+--   vim.cmd('cd ' .. original_dir)
+-- end, { desc = 'Compile current file', noremap = true, silent = false })
+--
+-- -- Quick shortcuts to create/open input.txt and output.txt
+-- vim.keymap.set('n', '<leader>i', function()
+--   local filepath = vim.fn.expand '%:p:h'
+--   vim.cmd('edit ' .. filepath .. '/input.txt')
+-- end, { desc = 'Open/create input.txt', noremap = true, silent = true })
+--
+-- vim.keymap.set('n', '<leader>o', function()
+--   local filepath = vim.fn.expand '%:p:h'
+--   vim.cmd('edit ' .. filepath .. '/output.txt')
+-- end, { desc = 'Open/create output.txt', noremap = true, silent = true })
+--
+-- -- F7 to run with input.txt only (without creating output.txt)
+-- vim.keymap.set('n', '<F7>', function()
+--   local file = vim.fn.expand '%'
+--   local ext = vim.fn.expand '%:e'
+--   local filename = vim.fn.expand '%:t:r'
+--   local filepath = vim.fn.expand '%:p:h'
+--
+--   local original_dir = vim.fn.getcwd()
+--   vim.cmd('cd ' .. filepath)
+--
+--   local input_file = filepath .. '/input.txt'
+--   local has_input = vim.fn.filereadable(input_file) == 1
+--
+--   if not has_input then
+--     vim.notify('input.txt not found in current directory', vim.log.levels.ERROR)
+--     vim.cmd('cd ' .. original_dir)
+--     return
+--   end
+--
+--   local cmd = ''
+--   if ext == 'cpp' then
+--     cmd = 'g++ ' .. file .. ' -o ' .. filename .. ' && ./' .. filename .. ' < input.txt'
+--   elseif ext == 'c' then
+--     cmd = 'gcc ' .. file .. ' -o ' .. filename .. ' && ./' .. filename .. ' < input.txt'
+--   elseif ext == 'java' then
+--     cmd = 'javac ' .. file .. ' && java ' .. filename .. ' < input.txt'
+--   elseif ext == 'py' then
+--     cmd = 'python3 ' .. file .. ' < input.txt'
+--   elseif ext == 'js' then
+--     cmd = 'node ' .. file .. ' < input.txt'
+--   elseif ext == 'go' then
+--     cmd = 'go run ' .. file .. ' < input.txt'
+--   else
+--     vim.notify('No run command for .' .. ext .. ' files', vim.log.levels.WARN)
+--     vim.cmd('cd ' .. original_dir)
+--     return
+--   end
+--
+--   -- Open in terminal buffer (simple approach)
+--   vim.cmd 'split'
+--   vim.cmd('terminal ' .. cmd)
+--   vim.cmd 'startinsert'
+--
+--   vim.cmd('cd ' .. original_dir)
+-- end, { desc = 'Run with input.txt only', noremap = true, silent = false })
+--
+-- Rest of your existing keymaps remain the same
+-- Disable the spacebar key's default behavior in Normal and Visual modes
 vim.keymap.set('n', '<F5>', function()
   local file = vim.fn.expand '%'
   local ext = vim.fn.expand '%:e'
+  local filename = vim.fn.expand '%:t:r'
+  local filepath = vim.fn.expand '%:p:h'
 
+  local original_dir = vim.fn.getcwd()
+  vim.cmd('cd ' .. filepath)
+
+  local cmd = ''
   if ext == 'cpp' then
-    vim.cmd('!g++ ' .. file .. ' -o %:r && ./%:r')
-  elseif ext == 'java' then
-    vim.cmd('!javac ' .. file .. ' && java %:r')
-  elseif ext == 'py' then
-    vim.cmd('!python3 ' .. file)
+    cmd = 'g++ ' .. file .. ' -o ' .. filename .. ' && ./' .. filename
   elseif ext == 'c' then
-    vim.cmd('!gcc ' .. file .. ' -o %:r && ./%:r')
+    cmd = 'gcc ' .. file .. ' -o ' .. filename .. ' && ./' .. filename
+  elseif ext == 'java' then
+    cmd = 'javac ' .. file .. ' && java ' .. filename
+  elseif ext == 'py' or ext == 'python' then
+    cmd = 'python3 ' .. file
+  elseif ext == 'js' then
+    cmd = 'node ' .. file
+  elseif ext == 'go' then
+    cmd = 'go run ' .. file
   else
-    print('No run command set for .' .. ext)
+    vim.notify('No run command configured for .' .. ext .. ' files', vim.log.levels.WARN)
+    return
   end
-end, { noremap = true, silent = true })
 
--- Disable the spacebar key's default behavior in Normal and Visual modes
+  -- Open in terminal buffer
+  vim.cmd 'split'
+  vim.cmd('terminal ' .. cmd)
+  vim.cmd 'startinsert'
+
+  vim.cmd('cd ' .. original_dir)
+end, { desc = 'Run current file in terminal', noremap = true })
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- For conciseness
