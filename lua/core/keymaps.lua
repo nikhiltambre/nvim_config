@@ -194,7 +194,14 @@ vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
 
 -- save file without auto-formatting
 vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
+vim.keymap.set('n', '<leader>f', function()
+  vim.lsp.buf.format { async = true }
+end, { desc = 'Format code' })
 
+-- vim.keymap.set('n', '<C-S-i>', function()
+--   vim.lsp.buf.format { async = true }
+-- end, { desc = 'Format code (Ctrl+Shift+I)' })
+--
 -- quit file
 vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts)
 
